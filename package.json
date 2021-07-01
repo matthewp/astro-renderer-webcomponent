@@ -1,6 +1,6 @@
 {
   "name": "@matthewp/astro-renderer-lit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Lit renderer for Astro apps",
   "main": "index.js",
   "type": "module",
