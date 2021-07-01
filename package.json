@@ -14,7 +14,7 @@
   "license": "MIT",
   "files": [
     "index.js",
-    "client.js",
+    "client-shim.js",
     "server.js"
   ],
   "devDependencies": {
