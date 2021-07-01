@@ -1,6 +1,3 @@
-//import { h, Component as BaseComponent } from 'preact';
-//import { renderToString } from 'preact-render-to-string';
-//import StaticHtml from './static-html.js';
 import { render } from '@lit-labs/ssr/lib/render-with-global-dom-shim.js';
 
 function isCustomElementTag(name) {
@@ -36,16 +33,19 @@ async function check(Component, _props, _children) {
 
 function compileTemplate(tag, props) {
   const template = [`<${tag} `];
-  const values = [];
-  for(const [key, value] of Object.entries(props)) {
+  for(const [key] of Object.entries(props)) {
     let lastEntry = template[template.length - 1];
-    lastEntry += `${key}=`;
+    lastEntry += ` ${key}=`;
     template[template.length - 1] = lastEntry;
-    values.push(value);
     template.push('');
   }
-  template.pop();
-  template.push(`></${tag}>`);
+  if(template.length > 1) {
+    template.pop();
+    template.push(`></${tag}>`);
+  } else {
+    template[0] += `></${tag}>`;
+  }
+  
   Object.defineProperty(template, 'raw', {
     enumerable: false,
     writable: false,
@@ -56,7 +56,7 @@ function compileTemplate(tag, props) {
 
 const templateCache = new Map();
 
-async function getTemplate(tag, props) {
+function getTemplate(tag, props) {
   const key = tag + '-' + Object.keys(props).join('-');
   if(templateCache.has(key)) {
     return templateCache.get(key);
@@ -67,9 +67,9 @@ async function getTemplate(tag, props) {
 }
 
 async function renderToStaticMarkup(Component, props, children) {
-  // TODO caching templates
   const { html } = await import('lit');
-  const template = compileTemplate(Component, props);
+  const template = getTemplate(Component, props);
+  const values = Object.values(props);
 
   const result = render(html(template, ...values));
   let out = '';
@@ -82,20 +82,7 @@ async function renderToStaticMarkup(Component, props, children) {
   };
 }
 
-function getComponentInfo(Component, _props, _children, options = {}) {
-  
-
-  return {
-    url: `/_astro/src/components/Test.js`,
-    export: 'default'
-  };
-}
-
-const hydrationMethod = 'self';
-
 export default {
   check,
-  renderToStaticMarkup,
-  getComponentInfo,
-  hydrationMethod,
+  renderToStaticMarkup
 };

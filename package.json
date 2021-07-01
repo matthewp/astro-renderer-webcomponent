@@ -1,13 +1,15 @@
 {
   "name": "@matthewp/astro-renderer-lit",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Lit renderer for Astro apps",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["astro"],
+  "keywords": [
+    "astro"
+  ],
   "author": "",
   "license": "MIT",
   "files": [
@@ -16,11 +18,15 @@
     "server.js"
   ],
   "devDependencies": {
-    "astro": "^0.14.0"
+    "astro": "^0.15.5"
   },
   "dependencies": {
     "@lit-labs/ssr": "^1.0.0-rc.1",
     "@webcomponents/template-shadowroot": "^0.1.0",
     "lit": "^2.0.0-rc.2"
-  }
+  },
+  "workspaces": [
+    ".",
+    "demo"
+  ]
 }

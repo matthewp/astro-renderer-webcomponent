@@ -1,6 +1,7 @@
 ---
 import Lorem from '../components/Lorem.astro';
 import '../components/Test.js';
+import '../components/Counter.js';
 ---
 
 <!doctype html>
@@ -11,8 +12,10 @@ import '../components/Test.js';
 <body>
     <h1>Test app</h1>
 
-    <Lorem />
+    <my-counter:load />
 
-    <calc-add:load num={33} />
+    <Lorem />    
+
+    <calc-add num={33} />
 </body>
 </html>
