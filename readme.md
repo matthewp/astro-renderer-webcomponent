@@ -61,7 +61,7 @@ import '../components/my-element.js';
 
 ### Polyfills & Hydration
 
-The renderer automatically handles adding appropriate polyfills for support in browsers that don't have Declarative Shadow DOM. The polyfill is about *1.5kB*. If the browser does support Declarative Shadow DOM then less than 400 bytes are loaded (to feature detect support).
+The renderer automatically handles adding appropriate polyfills for support in browsers that don't have Declarative Shadow DOM. The polyfill is about *1.5kB*. If the browser does support Declarative Shadow DOM then less than 250 bytes are loaded (to feature detect support).
 
 Hydration is also handled automatically. You can use the same hydration directives such as `:load`, `:idle` and `:visible` as you can with other libraries that Astro supports.
 
