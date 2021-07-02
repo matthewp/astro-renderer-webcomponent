@@ -1,21 +1,39 @@
 ---
 import Lorem from '../components/Lorem.astro';
-import '../components/Test.js';
-import '../components/Counter.js';
+import '../components/alert.js';
+import '../components/switch.js';
 ---
 
 <!doctype html>
 <html lang="en">
 <head>
     <title>Demo</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Test app</h1>
+    <h1 class="page-title">Custom Element renderer for Astro</h1>
+    <p>Zero JavaScript below</p>
 
-    <my-counter:load />
+    <section>
+        <h2>generic-components</h2>
 
-    <Lorem />    
+        <h3>&lt;generic-alert&gt;</h3>
+        <generic-alert:load>This is an alert</generic-alert:load>
 
-    <calc-add num={33} />
+        <h3>&lt;generic-switch&gt;</h3>
+        <generic-switch></generic-switch>
+    </section>
+    
 </body>
 </html>

@@ -1,17 +1,18 @@
 export default {
-  name: '@matthewp/astro-renderer-lit',
+  name: '@matthewp/astro-renderer-webcomponent',
   server: './server.js',
   external: [
-    '@lit-labs/ssr/lib/render-with-global-dom-shim.js'
+    'linkedom'
+    //'@lit-labs/ssr/lib/render-with-global-dom-shim.js'
   ],
   polyfills: [
-    './client-shim.js'
+    //'./client-shim.js'
   ],
   hydrationPolyfills: [
-    'lit/experimental-hydrate-support.js'
+    //'lit/experimental-hydrate-support.js'
   ],
   knownEntrypoints: [
-    '@matthewp/astro-renderer-lit/client-shim.js',
-    '@webcomponents/template-shadowroot/template-shadowroot.js'
+    //'@matthewp/astro-renderer-lit/client-shim.js',
+    //'@webcomponents/template-shadowroot/template-shadowroot.js'
   ]
 };

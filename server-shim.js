@@ -1,4 +1,26 @@
-import { render } from '@lit-labs/ssr/lib/render-with-global-dom-shim.js';
-document.getElementsByTagName = () => [];
+import {parseHTML} from 'linkedom';
 
-export { render }
+export default function() {
+  const {
+    document, customElements, HTMLElement
+    // other exports ..
+  } = parseHTML(`
+    <!doctype html>
+    <html>
+      <head>
+        <title></title>
+      </head>
+      <body></body>
+    </html>
+  `);
+
+  const assigns = {
+    document,
+    customElements,
+    HTMLElement
+  };
+
+  Object.assign(globalThis, assigns);
+
+  return assigns;
+}

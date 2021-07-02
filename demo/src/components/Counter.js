@@ -1,5 +1,6 @@
-import { LitElement, html } from 'lit';
+//import { LitElement, html } from 'lit';
 
+/*
 export const tagName = 'my-counter';
 
 class Counter extends LitElement {
@@ -32,3 +33,4 @@ class Counter extends LitElement {
 }
 
 customElements.define(tagName, Counter);
+*/

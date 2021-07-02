@@ -1,5 +1,5 @@
 {
-  "name": "@matthewp/astro-renderer-lit",
+  "name": "@matthewp/astro-renderer-webcomponent",
   "version": "0.1.1",
   "description": "A Lit renderer for Astro apps",
   "main": "index.js",
@@ -19,15 +19,10 @@
     "server-shim.js"
   ],
   "devDependencies": {
-    "astro": "^0.15.5"
+    "astro": "^0.16.0"
   },
   "dependencies": {
-    "@lit-labs/ssr": "^1.0.0-rc.1",
     "@webcomponents/template-shadowroot": "^0.1.0",
-    "lit": "^2.0.0-rc.2"
-  },
-  "workspaces": [
-    ".",
-    "demo"
-  ]
+    "linkedom": "^0.10.0"
+  }
 }

@@ -1,77 +1,95 @@
-import { render } from './server-shim.js';
-import { html } from 'lit';
+import {DOMParser} from 'linkedom';
+import shim from './server-shim.js';
+const { customElements } = shim();
 
-function isCustomElementTag(name) {
-  return typeof name === 'string' && /-/.test(name);
-}
-
-function getCustomElementConstructor(name) {
-  if(typeof customElements !== 'undefined' && isCustomElementTag(name)) {
-    return customElements.get(name) || null;
-  }
-  if(typeof name === 'function') {
-    return name;
+function getConstructor(tagNameOrComponent) {
+  if(typeof tagNameOrComponent === 'string') {
+    const Ctr = customElements.get(tagNameOrComponent);
+    return Ctr;
   }
   return null;
 }
 
-async function isLitElement(Component) {
-  const Ctr = getCustomElementConstructor(Component);
-  return !!(Ctr && Ctr._$litElement$);
-}
-
-async function check(Component, _props, _children) {
-  if(await isLitElement(Component)) {
+async function check(tagNameOrComponent, _props, _children) {
+  if(getConstructor(tagNameOrComponent)) {
     return true;
   }
-  // TODO other checks (Haunted?)
+
   return false;
 }
 
-function compileTemplate(tag, props) {
-  const template = [`<${tag} `];
-  for(const [key] of Object.entries(props)) {
-    let lastEntry = template[template.length - 1];
-    lastEntry += ` ${key}=`;
-    template[template.length - 1] = lastEntry;
-    template.push('');
+function * serializeFragment(frag) {
+  for(let node of frag.childNodes) {
+    yield * serialize(node);
   }
-  if(template.length > 1) {
-    template.pop();
-    template.push(`></${tag}>`);
-  } else {
-    template[0] += `></${tag}>`;
-  }
-  
-  Object.defineProperty(template, 'raw', {
-    enumerable: false,
-    writable: false,
-    value: Array.from(template)
-  });
-  return template;
 }
 
-const templateCache = new Map();
-
-function getTemplate(tag, props) {
-  const key = tag + '-' + Object.keys(props).join('-');
-  if(templateCache.has(key)) {
-    return templateCache.get(key);
+function * serializeElement(el) {
+  yield `<${el.localName}`;
+  for(let {name, value} of el.attributes) {
+    yield ` ${name}="${value}"`;
   }
-  const template = compileTemplate(tag, props);
-  templateCache.set(key, template);
-  return template;
+  yield `>`;
+  if(el.shadowRoot) {
+    yield `<template shadowroot="open">`;
+    yield * serializeFragment(el.shadowRoot);
+    yield `</template>`;
+  }
+  for(let child of el.childNodes) {
+    yield * serialize(child);
+  }
+  yield `</${el.localName}>`;
 }
 
-async function renderToStaticMarkup(Component, props, children) {
-  const template = getTemplate(Component, props);
-  const values = Object.values(props);
+function * serialize(node) {
+  switch(node.nodeType) {
+    case 1: {
+      yield * serializeElement(node);
+      break;
+    }
+    case 3: {
+      yield node.data;
+      break;
+    }
+    case 8: {
+      throw new Error('Cannot serialize comments');
+    }
+    case 11: {
+      yield * serializeFragment(node);
+      break;
+    }
+  }
+}
 
-  const result = render(html(template, ...values));
+async function renderToStaticMarkup(tagNameOrComponent, props, children) {
+  const Element = getConstructor(tagNameOrComponent);
+  const el = new Element();
+  for(let [key, value] of Object.entries(props)) {
+    el.setAttribute(key, value.toString());
+  }
+
+  if(children) {
+    const nodes = new DOMParser().parseFromString(children, 'text/html').childNodes;
+    el.append(...nodes);
+  }
+
+  if(typeof el.connectedCallback === 'function') {
+    el.connectedCallback();
+  }
+
   let out = '';
-  for(let chunk of result) {
-    out += chunk;
+  try {
+    for(let chunk of serialize(el)) {
+      out += chunk;
+    }
+  } catch(err) {
+    debugger;
   }
+
+  
+
+
+  console.log('out is...', out);
 
   return {
     html: out

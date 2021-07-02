@@ -12,6 +12,6 @@ export default {
     // tailwindConfig: '', // Path to tailwind.config.js if used, e.g. './tailwind.config.js'
   },
   renderers: [
-    '@matthewp/astro-renderer-lit'
+    '@matthewp/astro-renderer-webcomponent'
   ]
 };
