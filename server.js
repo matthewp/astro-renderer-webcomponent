@@ -78,18 +78,10 @@ async function renderToStaticMarkup(tagNameOrComponent, props, children) {
   }
 
   let out = '';
-  try {
-    for(let chunk of serialize(el)) {
-      out += chunk;
-    }
-  } catch(err) {
-    debugger;
+
+  for(let chunk of serialize(el)) {
+    out += chunk;
   }
-
-  
-
-
-  console.log('out is...', out);
 
   return {
     html: out

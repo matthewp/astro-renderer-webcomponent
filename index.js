@@ -3,16 +3,11 @@ export default {
   server: './server.js',
   external: [
     'linkedom'
-    //'@lit-labs/ssr/lib/render-with-global-dom-shim.js'
   ],
   polyfills: [
-    //'./client-shim.js'
-  ],
-  hydrationPolyfills: [
-    //'lit/experimental-hydrate-support.js'
+    '@matthewp/astro-renderer-webcomponent/client-shim.js'
   ],
   knownEntrypoints: [
-    //'@matthewp/astro-renderer-lit/client-shim.js',
-    //'@webcomponents/template-shadowroot/template-shadowroot.js'
+    '@webcomponents/template-shadowroot/template-shadowroot.js'
   ]
 };

@@ -1,10 +1,9 @@
 async function polyfill() {
-  const mod = '@webcomponents/template-shadowroot/template-shadowroot.js';
-  const { hydrateShadowRoots } = await import(mod);
+  const { hydrateShadowRoots } = await import('@webcomponents/template-shadowroot/template-shadowroot.js');
   hydrateShadowRoots(document.body);
 }
 
-if(new DOMParser().parseFromString(`<p><template shadowroot="open"></template></p>`, 'text/html', {
+if(!(new DOMParser().parseFromString(`<p><template shadowroot="open"></template></p>`, 'text/html', {
   includeShadowRoots: true
-}).querySelector('p')?.shadowRoot)
+}).querySelector('p')?.shadowRoot))
   polyfill();
