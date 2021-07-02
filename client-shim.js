@@ -1,19 +1,10 @@
 async function polyfill() {
-  const {
-    hydrateShadowRoots,
-  } = await import('@webcomponents/template-shadowroot/template-shadowroot.js');
-
+  const mod = '@webcomponents/template-shadowroot/template-shadowroot.js';
+  const { hydrateShadowRoots } = await import(mod);
   hydrateShadowRoots(document.body);
 }
 
-function hasNativeDeclarativeShadowRoots() {
-  const html = `<div><template shadowroot="open"></template></div>`;
-  const fragment = new DOMParser().parseFromString(html, 'text/html', {
-    includeShadowRoots: true
-  });
-  return !!fragment.querySelector('div')?.shadowRoot;
-}
-
-if(!hasNativeDeclarativeShadowRoots()) {
+if(new DOMParser().parseFromString(`<p><template shadowroot="open"></template></p>`, 'text/html', {
+  includeShadowRoots: true
+}).querySelector('p')?.shadowRoot)
   polyfill();
-}

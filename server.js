@@ -1,6 +1,5 @@
-import { render } from '@lit-labs/ssr/lib/render-with-global-dom-shim.js';
-
-const LIT_PKG = 'lit';
+import { render } from './server-shim.js';
+import { html } from 'lit';
 
 function isCustomElementTag(name) {
   return typeof name === 'string' && /-/.test(name);
@@ -17,12 +16,8 @@ function getCustomElementConstructor(name) {
 }
 
 async function isLitElement(Component) {
-  const { LitElement } = await import(LIT_PKG);
   const Ctr = getCustomElementConstructor(Component);
-  if(Ctr && LitElement.isPrototypeOf(Ctr)) {
-    return true;
-  }
-  return false;
+  return !!(Ctr && Ctr._$litElement$);
 }
 
 async function check(Component, _props, _children) {
@@ -69,7 +64,6 @@ function getTemplate(tag, props) {
 }
 
 async function renderToStaticMarkup(Component, props, children) {
-  const { html } = await import(LIT_PKG);
   const template = getTemplate(Component, props);
   const values = Object.values(props);
 

@@ -15,7 +15,8 @@
   "files": [
     "index.js",
     "client-shim.js",
-    "server.js"
+    "server.js",
+    "server-shim.js"
   ],
   "devDependencies": {
     "astro": "^0.15.5"
