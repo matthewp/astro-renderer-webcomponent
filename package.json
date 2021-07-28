@@ -1,7 +1,7 @@
 {
   "name": "@matthewp/astro-renderer-webcomponent",
   "version": "0.1.1",
-  "description": "A Lit renderer for Astro apps",
+  "description": "A Web component renderer for Astro apps",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -19,7 +19,8 @@
     "server-shim.js"
   ],
   "devDependencies": {
-    "astro": "^0.16.0"
+    "astro": "^0.18.1",
+    "lit": "^2.0.0-rc.2"
   },
   "dependencies": {
     "@webcomponents/template-shadowroot": "^0.1.0",

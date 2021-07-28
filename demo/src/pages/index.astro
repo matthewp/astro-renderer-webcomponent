@@ -2,6 +2,9 @@
 import Lorem from '../components/Lorem.astro';
 import '../components/alert.js';
 import '../components/switch.js';
+
+import '../components/gdemo.js';
+import '../components/Vanilla.js';
 ---
 
 <!doctype html>
@@ -35,5 +38,15 @@ import '../components/switch.js';
         <generic-switch:idle checked></generic-switch:idle>
     </section>
     
+    <section>
+        <h3>Grim</h3>
+
+        <hello-world name="Wilbur"></hello-world>
+    </section>
+    <section>
+        <h3>Vanilla</h3>
+
+        <vanilla-element></vanilla-element>
+    </section>
 </body>
 </html>

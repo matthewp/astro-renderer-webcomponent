@@ -52,7 +52,8 @@ function * serialize(node) {
       break;
     }
     case 8: {
-      throw new Error('Cannot serialize comments');
+      yield `<!-- ${node.data} -->`;
+      break;
     }
     case 11: {
       yield * serializeFragment(node);
@@ -75,6 +76,10 @@ async function renderToStaticMarkup(tagNameOrComponent, props, children) {
 
   if(typeof el.connectedCallback === 'function') {
     el.connectedCallback();
+  }
+
+  if(Symbol.for('wc.renderingComplete') in el) {
+    await el[Symbol.for('wc.renderingComplete')]();
   }
 
   let out = '';
